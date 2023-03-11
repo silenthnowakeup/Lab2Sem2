@@ -90,7 +90,7 @@ int findPopularWord(struct Word* words, int wordsCount)
 
 int findRarityWord(struct Word* words, int wordsCount) {
     int most_rarity_index = -1;
-    int min_length_count = INT_MAX;
+    int min_length_count = 100;
     for (int i = 0; i < wordsCount; i++) {
         if (words[i].length <= 4 && words[i].length>0) {
             int lengthCount = words[i].length * words[i].count;
