@@ -29,13 +29,13 @@ void wordInfo(FILE* file, struct Word* words, int* wordsCount) {
         }
         struct Word* wordInfo = findWord(words, *wordsCount, word);
         if (wordInfo == NULL) {
-            // Слово встретилось впервые - добавляем его в массив
+            
             strcpy(words[*wordsCount].text, word);
             words[*wordsCount].count = 1;
             words[*wordsCount].length = strlen(word);
             (*wordsCount)++;
         } else {
-            // Слово уже было в массиве - увеличиваем его счетчик
+            // Слово уже было в массиве увеличиваю его счетчик
             wordInfo->count++;
         }
     }
