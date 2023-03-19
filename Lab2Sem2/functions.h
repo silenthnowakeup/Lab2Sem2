@@ -8,21 +8,37 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#define MAX_LENGTH_WORD 50
+
+
+
+
 #define MAX_WORD_LENGTH 50
 
-struct Word {
+
+typedef struct _Node {
     char text[MAX_WORD_LENGTH];
     int count;
     int length;
-};
+    struct _Node* next;
+    struct _Node* prev;
+} Node;
 
-struct Word* findWord(struct Word words[], int, const char*);
-void wordInfo(FILE*, struct Word*, int*);
+typedef struct _DblLinkedList {
+    size_t size;
+    Node* head;
+    Node* tail;
+} DblLinkedList;
+
+void listInfo(DblLinkedList*);
+int infoBlyad(DblLinkedList*,char*);
+void wordInfo(FILE*, DblLinkedList *, int*);
 void printCompressedFile(FILE*, FILE*, char*, char*);
-int findPopularWord(struct Word*, int);
-int findRarityWord(struct Word*, int);
+int findPopularWord(DblLinkedList*, int);
+int findRarityWord(DblLinkedList*, int);
 void printDollar(FILE*, char*, char*);
-int quantityWord(FILE*);
+Node* at(DblLinkedList*,int);
+void pushBack(DblLinkedList*,char*,int,int);
 //void allocateText(struct Word*, int, int);
 
 
