@@ -185,7 +185,7 @@ int findPopularWord(DblLinkedList* list, int wordsCount)
 
 int findRarityWord(DblLinkedList* list, int wordsCount) {
     int most_rarity_index = -1;
-    int min_length_count = INT_MAX;
+    int min_length_count = 50;
     for (int i = 0; i < wordsCount; i++) {
         if (at(list, i)->length <= 4 && at(list, i)->length > 0) {
             int lengthCount = at(list, i)->length * at(list, i)->count;
