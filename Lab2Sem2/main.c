@@ -42,7 +42,7 @@ int main() {
 
 
     char* wordA = (char*)malloc(at(list, indPop)->length * sizeof(char));
-    char* wordB = (char*)malloc(at(list, indRare)->length * sizeof(char));;
+    char* wordB = (char*)malloc(at(list, indRare)->length * sizeof(char));
 
 
     strcpy(wordA, at(list, indPop)->text);
