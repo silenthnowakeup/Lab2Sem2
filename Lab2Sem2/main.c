@@ -1,7 +1,7 @@
 #include "functions.h"
 
 int main() {
-    char s;
+    int s;
     FILE* file;
 
     if ((file = fopen("D:/Lab2Sem2/cmake-build-debug/test1.txt", "w")) == NULL) {
