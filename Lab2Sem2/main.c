@@ -23,15 +23,14 @@ int main() {
     list->head = NULL;
     list->tail = NULL;
     list->size = 0;
-    int wordsCount = 0;
 
     if ((file = fopen("D:/Lab2Sem2/cmake-build-debug/test1.txt", "r")) == NULL) {
         printf("Error\n");
         exit(1);
     }
 
-    wordInfo(file, list, &wordsCount);
-    
+    wordInfo(file, list);
+
 
     fclose(file);
 
