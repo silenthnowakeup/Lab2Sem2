@@ -31,9 +31,7 @@ int main() {
     }
 
     wordInfo(file, list, &wordsCount);
-
-    /*int maxLength = maxWordLength(file,words,wordsCount);
-    allocateText(words,wordsCount,maxLength);*/
+    
 
     fclose(file);
 
