@@ -8,16 +8,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#define MAX_LENGTH_WORD 50
-
-
-
-
-#define MAX_WORD_LENGTH 50
 
 
 typedef struct _Node {
-    char text[MAX_WORD_LENGTH];
+    char* text;
     int count;
     int length;
     struct _Node* next;
@@ -39,11 +33,5 @@ int findRarityWord(DblLinkedList*, int);
 void printDollar(FILE*, char*, char*);
 Node* at(DblLinkedList*,int);
 void pushBack(DblLinkedList*,const char*,int,int);
-//void allocateText(struct Word*, int, int);
-
-
-
-
-
 
 #endif //LAB2SEM2_FUNCTIONS_H
