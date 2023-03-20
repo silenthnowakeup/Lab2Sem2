@@ -26,7 +26,7 @@ typedef struct _DblLinkedList {
 
 void listInfo(DblLinkedList*);
 int infoBlyad(DblLinkedList*,const char*);
-void wordInfo(FILE*, DblLinkedList *, int*);
+void wordInfo(FILE*, DblLinkedList *);
 void printCompressedFile(FILE*, FILE*, char*, char*);
 int findPopularWord(DblLinkedList*, int);
 int findRarityWord(DblLinkedList*, int);
