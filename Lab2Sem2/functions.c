@@ -3,19 +3,13 @@
 //
 
 #include "functions.h"
-#define MAX_WORD_LENGTH 50
-
-
-
-//pushback and Node* at(list, pos);
-
-//pushback and Node* at(list, pos);
 
 void pushBack(DblLinkedList* list,const char* text, int length, int count)
 {
     Node* ptr = (Node*)malloc(1 * sizeof(Node));
     ptr->count = count;
     ptr->length = length;
+    ptr->text = (char*)malloc(length * sizeof(char));
     strcpy(ptr->text, text);
     if (list->head == NULL) {
         ptr->next = NULL;
@@ -52,7 +46,7 @@ Node* at(DblLinkedList* list, int index) {
 
 void listInfo(DblLinkedList* list)
 {
-    Node* temp = (Node*)malloc(sizeof(Node));
+    Node* temp;
     temp = list->head;
     while (temp != NULL)
     {
@@ -65,7 +59,7 @@ int infoBlyad(DblLinkedList* list,const char* cmp_word)
 {
     if (list->head != NULL)
     {
-        Node* ptr = (Node*)malloc(sizeof(Node));
+        Node* ptr;
         ptr = list->head;
         int i = 0;
         while (ptr != NULL)
@@ -85,18 +79,23 @@ int infoBlyad(DblLinkedList* list,const char* cmp_word)
 
 
 void wordInfo(FILE* file, DblLinkedList* list, int* wordsCount) {
-    char word[MAX_WORD_LENGTH];
+
+    int size = 16;
+
+    char* word = (char*)calloc (size, sizeof(char));
+    char* temp = (char*)calloc(size,sizeof(char));
+
     while (fscanf(file, "%s", word) == 1) {
         const int len = strlen(word);
+
         if (len > 0 && ispunct(word[len - 1])) {
-            // Удаляем знак препинания из конца слова
-            char temp[MAX_WORD_LENGTH];
+            //делит знак препинания из конца слова
             strncpy(temp, word, len - 1);
             temp[len - 1] = '\0';
             strcpy(word, temp);
         }
-        int index = 0;
-        if ((index =infoBlyad(list, word)) == -1) {
+        int index;
+        if ((index = infoBlyad(list, word)) == -1) {
             // если слово встретилось впервые добавляю его
             pushBack(list, word, strlen(word), 1);
         }
@@ -107,11 +106,13 @@ void wordInfo(FILE* file, DblLinkedList* list, int* wordsCount) {
 }
 
 void printCompressedFile(FILE* file, FILE* compressedFile, char* wordA, char* wordB) {
-    char word[MAX_WORD_LENGTH];
+    int size = 16;
+    char* word = (char*)calloc(size,sizeof(char));
     printf("\nWordA::%s, WordB::%s", wordA, wordB);
 
     while (fscanf(file, "%s", word) == 1) {
         int len = strlen(word);
+
         if (ispunct(word[len - 1])) {
             char lastChar = word[len - 1];
             word[len - 1] = '\0';
@@ -179,15 +180,3 @@ void printDollar(FILE* compressFile, char* wordA, char* wordB)
     fprintf(compressFile, "$%s $%s", wordA, wordB);
 }
 
-int quantityWord(FILE* file)
-{
-    int count = 0;
-    char c;
-    while ((c = getc(file)) != EOF) {
-        if (c == ' ' || c == '\n' || c == '\t') {
-            count++;
-        }
-    }
-    printf("%d\n", count);
-    return count;
-}
