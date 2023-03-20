@@ -31,14 +31,14 @@ typedef struct _DblLinkedList {
 } DblLinkedList;
 
 void listInfo(DblLinkedList*);
-int infoBlyad(DblLinkedList*,char*);
+int infoBlyad(DblLinkedList*,const char*);
 void wordInfo(FILE*, DblLinkedList *, int*);
 void printCompressedFile(FILE*, FILE*, char*, char*);
 int findPopularWord(DblLinkedList*, int);
 int findRarityWord(DblLinkedList*, int);
 void printDollar(FILE*, char*, char*);
 Node* at(DblLinkedList*,int);
-void pushBack(DblLinkedList*,char*,int,int);
+void pushBack(DblLinkedList*,const char*,int,int);
 //void allocateText(struct Word*, int, int);
 
 
