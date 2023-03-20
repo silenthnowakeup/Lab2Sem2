@@ -111,7 +111,7 @@ void printCompressedFile(FILE* file, FILE* compressedFile, char* wordA, char* wo
     printf("\nWordA::%s, WordB::%s", wordA, wordB);
 
     while (fscanf(file, "%s", word) == 1) {
-        int len = strlen(word);
+       unsigned long len = strlen(word);
 
         if (ispunct(word[len - 1])) {
             char lastChar = word[len - 1];
