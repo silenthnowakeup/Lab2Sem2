@@ -11,7 +11,7 @@
 
 //pushback and Node* at(list, pos);
 
-void pushBack(DblLinkedList* list, char* text, int length, int count)
+void pushBack(DblLinkedList* list,const char* text, int length, int count)
 {
     Node* ptr = (Node*)malloc(1 * sizeof(Node));
     ptr->count = count;
@@ -32,27 +32,6 @@ void pushBack(DblLinkedList* list, char* text, int length, int count)
         list->size++;
     }
 }
-
-//Node* at(DblLinkedList* list, int pos) {
-//    int i = 0;
-//    Node* node = NULL;
-//    if (list->size / 2 >= pos) {
-//        node = list->head;
-//        while (node != NULL && i < pos) {
-//            node = node->next;
-//            i++;
-//        }
-//    }
-//    else
-//    {
-//        node = list->tail;
-//        while (node != NULL && i < (list->size - pos - 1)) {
-//            node = node->prev;
-//            i++;
-//        }
-//    }
-//    return node;
-//}
 
 Node* at(DblLinkedList* list, int index) {
     if (index < 0 || index >= list->size) {
@@ -82,7 +61,7 @@ void listInfo(DblLinkedList* list)
     }
 }
 
-int infoBlyad(DblLinkedList* list, char* cmp_word)
+int infoBlyad(DblLinkedList* list,const char* cmp_word)
 {
     if (list->head != NULL)
     {
@@ -108,7 +87,7 @@ int infoBlyad(DblLinkedList* list, char* cmp_word)
 void wordInfo(FILE* file, DblLinkedList* list, int* wordsCount) {
     char word[MAX_WORD_LENGTH];
     while (fscanf(file, "%s", word) == 1) {
-        int len = strlen(word);
+        const int len = strlen(word);
         if (len > 0 && ispunct(word[len - 1])) {
             // Удаляем знак препинания из конца слова
             char temp[MAX_WORD_LENGTH];
@@ -118,15 +97,11 @@ void wordInfo(FILE* file, DblLinkedList* list, int* wordsCount) {
         }
         int index = 0;
         if ((index =infoBlyad(list, word)) == -1) {
-            // Слово встретилось впервые - добавляем его в массив
+            // если слово встретилось впервые добавляю его
             pushBack(list, word, strlen(word), 1);
-            //            words[*wordsCount].count = 1;
-            //            words[*wordsCount].length = strlen(word);
         }
         else {
             at(list, index)->count++;
-            // Слово уже было в массиве - увеличиваем его счетчик
-
         }
     }
 }
@@ -185,7 +160,7 @@ int findPopularWord(DblLinkedList* list, int wordsCount)
 
 int findRarityWord(DblLinkedList* list, int wordsCount) {
     int most_rarity_index = -1;
-    int min_length_count = 50;
+    int min_length_count = INT_MAX;
     for (int i = 0; i < wordsCount; i++) {
         if (at(list, i)->length <= 4 && at(list, i)->length > 0) {
             int lengthCount = at(list, i)->length * at(list, i)->count;
