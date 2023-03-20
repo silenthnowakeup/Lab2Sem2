@@ -9,7 +9,7 @@ void pushBack(DblLinkedList* list,const char* text, int length, int count)
     Node* ptr = (Node*)malloc(1 * sizeof(Node));
     ptr->count = count;
     ptr->length = length;
-    ptr->text = (char*)malloc(length * sizeof(char));
+    ptr->text = (char*)malloc(ptr->length * sizeof(char));
     strcpy(ptr->text, text);
     if (list->head == NULL) {
         ptr->next = NULL;
@@ -78,7 +78,7 @@ int infoBlyad(DblLinkedList* list,const char* cmp_word)
 }
 
 
-void wordInfo(FILE* file, DblLinkedList* list, int* wordsCount) {
+void wordInfo(FILE* file, DblLinkedList* list) {
 
     int size = 16;
 
@@ -86,7 +86,7 @@ void wordInfo(FILE* file, DblLinkedList* list, int* wordsCount) {
     char* temp = (char*)calloc(size,sizeof(char));
 
     while (fscanf(file, "%s", word) == 1) {
-        const int len = strlen(word);
+        const unsigned long len = strlen(word);
 
         if (len > 0 && ispunct(word[len - 1])) {
             //делит знак препинания из конца слова
@@ -161,7 +161,7 @@ int findPopularWord(DblLinkedList* list, int wordsCount)
 
 int findRarityWord(DblLinkedList* list, int wordsCount) {
     int most_rarity_index = -1;
-    int min_length_count = 100;
+    int min_length_count = INT_MAX;
     for (int i = 0; i < wordsCount; i++) {
         if (at(list, i)->length <= 4 && at(list, i)->length > 0) {
             int lengthCount = at(list, i)->length * at(list, i)->count;
