@@ -9,8 +9,12 @@ void pushBack(DblLinkedList* list,const char* text, int length, int count)
     Node* ptr = (Node*)malloc(1 * sizeof(Node));
     ptr->count = count;
     ptr->length = length;
+    if (length > 0) {
     ptr->text = (char*)malloc(ptr->length * sizeof(char));
     strcpy(ptr->text, text);
+    } else {
+    ptr->text = NULL;
+    }
     if (list->head == NULL) {
         ptr->next = NULL;
         ptr->prev = NULL;
@@ -97,7 +101,7 @@ void wordInfo(FILE* file, DblLinkedList* list) {
         int index;
         if ((index = infoBlyad(list, word)) == -1) {
             // если слово встретилось впервые добавляю его
-            pushBack(list, word, strlen(word), 1);
+            pushBack(list, word, (int)strlen(word), 1);
         }
         else {
             at(list, index)->count++;
