@@ -89,7 +89,7 @@ void wordInfo(FILE* file, DblLinkedList* list) {
     char* word = (char*)calloc (size, sizeof(char));
     char* temp = (char*)calloc(size,sizeof(char));
 
-    while (fscanf(file, "%s", word) == 1) {
+    while (fscanf(file, "%16s", word) == 1) {
         const unsigned long len = strlen(word);
 
         if (len > 0 && ispunct(word[len - 1])) {
@@ -116,7 +116,7 @@ void printCompressedFile(FILE* file, FILE* compressedFile, char* wordA, char* wo
     char* word = (char*)calloc(size,sizeof(char));
     printf("\nWordA::%s, WordB::%s", wordA, wordB);
 
-    while (fscanf(file, "%s", word) == 1) {
+    while (fscanf(file, "%16s", word) == 1) {
        unsigned long len = strlen(word);
 
         if (ispunct(word[len - 1])) {
