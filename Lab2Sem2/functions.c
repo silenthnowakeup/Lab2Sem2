@@ -59,7 +59,7 @@ void listInfo(DblLinkedList* list)
     }
 }
 
-int infoBlyad(DblLinkedList* list,const char* cmp_word)
+int infoIndex(DblLinkedList* list,const char* cmp_word)
 {
     if (list != NULL && list->head != NULL)
     {
@@ -99,7 +99,7 @@ void wordInfo(FILE* file, DblLinkedList* list) {
             strcpy(word, temp);
         }
         int index;
-        if ((index = infoBlyad(list, word)) == -1) {
+        if ((index = infoIndex(list, word)) == -1) {
             // если слово встретилось впервые добавляю его
             pushBack(list, word, (int)strlen(word), 1);
         }
