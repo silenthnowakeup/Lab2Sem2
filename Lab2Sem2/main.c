@@ -36,8 +36,8 @@ int main() {
 
     listInfo(list);
 
-    int indPop = findPopularWord(list, list->size);
-    int indRare = findRarityWord(list, list->size);
+    int indPop = findPopularWord(list, (int)list->size);
+    int indRare = findRarityWord(list, (int)list->size);
     printf("\nhello %d,%d\n", indPop,indRare);
 
 
