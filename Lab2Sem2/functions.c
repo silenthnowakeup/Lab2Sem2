@@ -144,6 +144,7 @@ void printCompressedFile(FILE* file, FILE* compressedFile, char* wordA, char* wo
             }
         }
     }
+        free(word);
 }
 
 
