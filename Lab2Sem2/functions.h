@@ -10,22 +10,22 @@
 #include <ctype.h>
 
 
-typedef struct _Node {
+typedef struct Node {
     char* text;
     int count;
     int length;
-    struct _Node* next;
-    struct _Node* prev;
+    struct Node* next;
+    struct Node* prev;
 } Node;
 
-typedef struct _DblLinkedList {
+typedef struct DblLinkedList {
     size_t size;
     Node* head;
     Node* tail;
 } DblLinkedList;
 
 void listInfo(DblLinkedList*);
-int infoBlyad(DblLinkedList*,const char*);
+int infoIndex(DblLinkedList*,const char*);
 void wordInfo(FILE*, DblLinkedList *);
 void printCompressedFile(FILE*, FILE*, char*, char*);
 int findPopularWord(DblLinkedList*, int);
