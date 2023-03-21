@@ -10,7 +10,7 @@ void pushBack(DblLinkedList* list,const char* text, int length, int count)
     ptr->count = count;
     ptr->length = length;
     if (length > 0) {
-    ptr->text = (char*)malloc(ptr->length * sizeof(char));
+    ptr->text = (char*)malloc((ptr->length+1) * sizeof(char));
     strcpy(ptr->text, text);
     } else {
     ptr->text = NULL;
@@ -61,7 +61,7 @@ void listInfo(DblLinkedList* list)
 
 int infoBlyad(DblLinkedList* list,const char* cmp_word)
 {
-    if (list->head != NULL)
+    if (list != NULL && list->head != NULL)
     {
         Node* ptr;
         ptr = list->head;
@@ -107,6 +107,8 @@ void wordInfo(FILE* file, DblLinkedList* list) {
             at(list, index)->count++;
         }
     }
+    free(word);
+    free(temp);
 }
 
 void printCompressedFile(FILE* file, FILE* compressedFile, char* wordA, char* wordB) {
