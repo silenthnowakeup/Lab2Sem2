@@ -32,20 +32,6 @@ void pushBack(DblLinkedList* list,const char* text, int length, int count)
     }
 }
 
-/*int checkVigoda (DblLinkedList* list, int pop, int rare)
-{
-    if (at(list,pop)->length * at(list,pop)->count == at(list,rare)->length * at(list,rare)->count || at(list,pop)->length * at(list,pop)->count < at(list,rare)->length * at(list,rare)->count)
-    {
-        return -1;
-    }
-    return 0;
-}*/
-
-int ispunct(int c) {
-    static const char punct[] = ".,?!;:'\"()[]{}<>-–—/\\|@#$%^&*_+=`~";
-    return strchr(punct, c) != NULL;
-}
-
 int checkVigoda(DblLinkedList* list, int pop, int rare) {
     int lenA = at(list, pop)->length;
     int lenB = at(list, rare)->length;
