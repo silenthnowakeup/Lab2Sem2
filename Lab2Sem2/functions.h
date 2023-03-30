@@ -35,8 +35,5 @@ Node* at(DblLinkedList*,int);
 void pushBack(DblLinkedList*,const char*,int,int);
 void removeNode(DblLinkedList*,const char *);
 int checkVigoda(DblLinkedList*,int,int);
-int ispunct(int);
-void printBeginCompressFile (FILE*, FILE*);
-
 
 #endif //LAB2SEM2_FUNCTIONS_H
