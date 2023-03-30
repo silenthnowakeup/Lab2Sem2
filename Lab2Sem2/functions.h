@@ -27,11 +27,16 @@ typedef struct DblLinkedList {
 void listInfo(DblLinkedList*);
 int infoIndex(DblLinkedList*,const char*);
 void wordInfo(FILE*, DblLinkedList *);
-void printCompressedFile(FILE*, FILE*, char*, char*);
+void printCompressedFile(FILE*,FILE*, char**, char**,int);
 int findPopularWord(DblLinkedList*, int);
 int findRarityWord(DblLinkedList*, int);
-void printDollar(FILE*, char*, char*);
+void printDollar(FILE*, char**, char**,int);
 Node* at(DblLinkedList*,int);
 void pushBack(DblLinkedList*,const char*,int,int);
+void removeNode(DblLinkedList*,const char *);
+int checkVigoda(DblLinkedList*,int,int);
+int ispunct(int);
+void printBeginCompressFile (FILE*, FILE*);
+
 
 #endif //LAB2SEM2_FUNCTIONS_H
