@@ -1,21 +1,7 @@
 #include "functions.h"
 
 int main() {
-    int s;
     FILE* file;
-
-    if ((file = fopen("D:/Lab2Sem2/cmake-build-debug/test1.txt", "w")) == NULL) {
-        printf("Error\n");
-        exit(1);
-    }
-
-    printf("Enter some text: ");
-
-    while ((s = getchar()) != '\n') {
-        fputc(s, file);
-    }
-
-    fclose(file);
 
     DblLinkedList* list;
     list = (DblLinkedList*)malloc(sizeof(DblLinkedList));
@@ -35,38 +21,46 @@ int main() {
     fclose(file);
 
     listInfo(list);
+    FILE *compressedFile;
 
-    int indPop = findPopularWord(list, (int)list->size);
-    int indRare = findRarityWord(list, (int)list->size);
-    printf("\nhello %d,%d\n", indPop,indRare);
-
-
-    char* wordA = (char*)malloc(at(list, indPop)->length * sizeof(char));
-    char* wordB = (char*)malloc(at(list, indRare)->length * sizeof(char));
-
-
-    strcpy(wordA, at(list, indPop)->text);
-    strcpy(wordB, at(list, indRare)->text);
-
-    if ((file = fopen("D:/Lab2Sem2/cmake-build-debug/test1.txt", "r")) == NULL)
-    {
+    if ((file = fopen("D:/Lab2Sem2/cmake-build-debug/test1.txt", "r")) == NULL) {
         printf("Error\n");
         exit(1);
     }
 
-    FILE* compressedFile;
-    if ((compressedFile = fopen("D:/Lab2Sem2/cmake-build-debug/compFile.txt", "w")) == NULL)
-    {
+    if ((compressedFile = fopen("D:/Lab2Sem2/cmake-build-debug/compFile.txt", "w")) == NULL) {
         printf("Error\n");
         exit(1);
     }
 
+    int numReplacements = 0;
+    char **wordsA = (char **) malloc(list->size * sizeof(char *));
+    char **wordsB = (char **) malloc(list->size * sizeof(char *));
 
-    printCompressedFile(file, compressedFile, wordA, wordB);
-    printDollar(compressedFile, wordA, wordB);
+    while (1) {
+        int indPop = findPopularWord(list, (int) list->size);
+        int indRare = findRarityWord(list, (int) list->size);
+
+        if (checkVigoda(list, indPop, indRare) == 1) {
+            char *wordA = (char *) malloc(at(list, indPop)->length * sizeof(char));
+            char *wordB = (char *) malloc(at(list, indRare)->length * sizeof(char));
+            strcpy(wordA, at(list, indPop)->text);
+            strcpy(wordB, at(list, indRare)->text);
+            wordsA[numReplacements] = wordA;
+            wordsB[numReplacements] = wordB;
+            numReplacements++;
+            removeNode(list, wordA);
+            removeNode(list, wordB);
+        } else {
+            break;
+        }
+    }
+
+    printDollar(compressedFile,wordsA,wordsB,numReplacements);
+
+    printCompressedFile(file,compressedFile, wordsA, wordsB, numReplacements);
 
     fclose(file);
     fclose(compressedFile);
-
     return 0;
 }
