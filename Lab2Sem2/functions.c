@@ -10,11 +10,12 @@ void pushBack(DblLinkedList* list,const char* text, int length, int count)
     ptr->count = count;
     ptr->length = length;
     if (length > 0) {
-    ptr->text = (char*)malloc((ptr->length+1) * sizeof(char));
-    strcpy(ptr->text, text);
+        ptr->text = (char*)malloc((ptr->length+1) * sizeof(char));
+        strcpy(ptr->text, text);
     } else {
-    ptr->text = NULL;
+        ptr->text = NULL;
     }
+
     if (list->head == NULL) {
         ptr->next = NULL;
         ptr->prev = NULL;
@@ -30,6 +31,34 @@ void pushBack(DblLinkedList* list,const char* text, int length, int count)
         list->size++;
     }
 }
+
+/*int checkVigoda (DblLinkedList* list, int pop, int rare)
+{
+    if (at(list,pop)->length * at(list,pop)->count == at(list,rare)->length * at(list,rare)->count || at(list,pop)->length * at(list,pop)->count < at(list,rare)->length * at(list,rare)->count)
+    {
+        return -1;
+    }
+    return 0;
+}*/
+
+int ispunct(int c) {
+    static const char punct[] = ".,?!;:'\"()[]{}<>-–—/\\|@#$%^&*_+=`~";
+    return strchr(punct, c) != NULL;
+}
+
+int checkVigoda(DblLinkedList* list, int pop, int rare) {
+    int lenA = at(list, pop)->length;
+    int lenB = at(list, rare)->length;
+    int countA = at(list, pop)->count;
+    int countB = at(list, rare)->count;
+
+    if ((lenA * countA)/10 > lenB * countB ) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 
 Node* at(DblLinkedList* list, int index) {
     if (index < 0 || index >= list->size) {
@@ -84,12 +113,12 @@ int infoIndex(DblLinkedList* list,const char* cmp_word)
 
 void wordInfo(FILE* file, DblLinkedList* list) {
 
-    int size = 16;
+    int size = 32;
 
     char* word = (char*)calloc (size, sizeof(char));
     char* temp = (char*)calloc(size,sizeof(char));
 
-    while (fscanf(file, "%16s", word) == 1) {
+    while (fscanf(file, "%32s", word) == 1) {
         const unsigned long len = strlen(word);
 
         if (len > 0 && ispunct(word[len - 1])) {
@@ -107,44 +136,58 @@ void wordInfo(FILE* file, DblLinkedList* list) {
             at(list, index)->count++;
         }
     }
+
     free(word);
     free(temp);
 }
 
-void printCompressedFile(FILE* file, FILE* compressedFile, char* wordA, char* wordB) {
+void printCompressedFile(FILE* file,FILE* compressedFile, char** wordsA, char** wordsB, int numReplacements) {
     int size = 16;
     char* word = (char*)calloc(size,sizeof(char));
-    printf("\nWordA::%s, WordB::%s", wordA, wordB);
 
     while (fscanf(file, "%16s", word) == 1) {
-       unsigned long len = strlen(word);
+        unsigned long len = strlen(word);
 
         if (ispunct(word[len - 1])) {
             char lastChar = word[len - 1];
             word[len - 1] = '\0';
-            if (strcmp(word, wordA) == 0) {
-                fprintf(compressedFile, "%s%c ", wordB, lastChar);
+            int found = 0;
+            for (int i = 0; i < numReplacements; i++) {
+                if (strcmp(word, wordsA[i]) == 0) {
+                    fprintf(compressedFile, "%s%c ", wordsB[i], lastChar);
+                    found = 1;
+                    break;
+                }
+                else if (strcmp(word, wordsB[i]) == 0) {
+                    fprintf(compressedFile, "%s%c ", wordsA[i], lastChar);
+                    found = 1;
+                    break;
+                }
             }
-            else if (strcmp(word, wordB) == 0) {
-                fprintf(compressedFile, "%s%c ", wordA, lastChar);
-            }
-            else {
+            if (!found) {
                 fprintf(compressedFile, "%s%c ", word, lastChar);
             }
         }
         else {
-            if (strcmp(word, wordA) == 0) {
-                fprintf(compressedFile, "%s ", wordB);
+            int found = 0;
+            for (int i = 0; i < numReplacements; i++) {
+                if (strcmp(word, wordsA[i]) == 0) {
+                    fprintf(compressedFile, "%s ", wordsB[i]);
+                    found = 1;
+                    break;
+                }
+                else if (strcmp(word, wordsB[i]) == 0) {
+                    fprintf(compressedFile, "%s ", wordsA[i]);
+                    found = 1;
+                    break;
+                }
             }
-            else if (strcmp(word, wordB) == 0) {
-                fprintf(compressedFile, "%s ", wordA);
-            }
-            else {
+            if (!found) {
                 fprintf(compressedFile, "%s ", word);
             }
         }
     }
-        free(word);
+    free(word);
 }
 
 
@@ -154,8 +197,7 @@ int findPopularWord(DblLinkedList* list, int wordsCount)
     int max_length_count = -1;
     for (int i = 0; i < wordsCount; i++)
     {
-        if (at(list, i)->length > 4)
-        {
+        if(at(list,i)->length >=4) {
             int lengthCount = at(list, i)->length * at(list, i)->count;
             if (lengthCount > max_length_count) {
                 max_length_count = lengthCount;
@@ -170,20 +212,49 @@ int findRarityWord(DblLinkedList* list, int wordsCount) {
     int most_rarity_index = -1;
     int min_length_count = 100;
     for (int i = 0; i < wordsCount; i++) {
-        if (at(list, i)->length <= 4 && at(list, i)->length > 0) {
+        if(at(list,i)->length<4) {
             int lengthCount = at(list, i)->length * at(list, i)->count;
             if (lengthCount < min_length_count) {
                 min_length_count = lengthCount;
                 most_rarity_index = i;
             }
         }
-    }
+        }
     return most_rarity_index;
 }
 
-void printDollar(FILE* compressFile, char* wordA, char* wordB)
-{
-    fseek(compressFile, 0, SEEK_END);
-    fprintf(compressFile, "$%s $%s", wordA, wordB);
+
+void removeNode(DblLinkedList*list,const char *wordRemove) {
+    Node* nodeRemove = list->head;
+
+    while (nodeRemove != NULL) {
+        if (strcmp(nodeRemove->text, wordRemove) == 0) {
+            if (nodeRemove == list->head) {
+                list->head = nodeRemove->next;
+                if (list->head != NULL) {
+                    list->head->prev = NULL;
+                }
+            } else if (nodeRemove == list->tail) {
+                list->tail = nodeRemove->prev;
+                if (list->tail != NULL) {
+                    list->tail->next = NULL;
+                }
+            } else {
+                nodeRemove->prev->next = nodeRemove->next;
+                nodeRemove->next->prev = nodeRemove->prev;
+            }
+            free(nodeRemove);
+            list->size--;
+            return;
+        }
+        nodeRemove = nodeRemove->next;
+    }
 }
 
+void printDollar(FILE* compressFile, char** wordA, char** wordB,int num)
+{
+    for(int i = 0;i<num;i++) {
+        fprintf(compressFile, "$%s$%s", wordA[i], wordB[i]);
+    }
+    fprintf(compressFile,"\n");
+}
